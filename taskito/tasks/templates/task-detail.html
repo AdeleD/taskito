@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Task "{{ task.name }}"{% endblock %}
+
+{% block page_title %}Task "{{ task.name }}"{% endblock %}
+
+{% block main_content %}
+
+	<dl class="dl-horizontal">
+		{% if task.creator == user %}
+		<dt>Edit</dt>
+	  <dd><a href="{% url 'updatetask' task.id %}">Edit this task</a></dd>
+		{% endif %}
+
+		<dt>Created by</dt>
+	  <dd>{{ task.creator }}</dd>
+
+	  <dt>Created at</dt>
+	  <dd>{{ task.created }}</dd>
+
+	  {% if task.updated %}
+	  <dt>Last updated at</dt>
+	  <dd>{{ task.updated }}</dd>
+	  {% endif %}
+
+	  <dt>Completed at</dt>
+	  <dd>{{ task.progress }}%</dd>
+
+		{% if task.description %}
+	  <dt>Description</dt>
+	  <dd>{{ task.description }}</dd>
+	  {% endif %}
+	</dl>
+
+
+	<div class="comments">
+		<p>Comments:</p>
+		{% for comment in comments %}
+		<div class="comment">
+			{% if comment.user %}
+				<div class="comment-infos">By {{ comment.user.username }} | {{ comment.created|date:"Y-m-d H:i:s" }}</div>
+			{% else %}
+				<div class="comment-infos">By {{ comment.user_name }} | {{ comment.created|date:"Y-m-d H:i:s" }}</div>
+			{% endif %}
+			<div class="content">{{ comment.content }}</div>
+		</div>
+		{% endfor %}
+	</div>
+
+
+	{% if comment_form %}
+	<div class="add-comment">
+		<p>Add a comment:</p>
+		<form action="" method="post">{% csrf_token %}
+		{{ comment_form.as_p }}
+		<input type="submit" value="Submit" />
+		<input type="hidden" name="task_id" value="{{ task.id }}"/>
+		</form>
+	</div>
+	{% endif %}
+
+{% endblock %}

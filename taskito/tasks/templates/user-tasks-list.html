@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Tasks of {{ list_owner_username }}{% endblock %}
+
+{% block page_title %}Tasks of {{ list_owner_username }}{% endblock %}
+
+{% block main_content %}
+
+	<div class="tasks">
+		{% for task in tasks %}
+		<div class="task clearfix">
+			<div class="infos">
+				<a href="{% url 'taskdetail' task.created|date:"Y" task.created|date:"m" task.created|date:"d" task.slug %}">{{ task.name }}</a><br/>
+				By <a href="{% url 'usertasks' task.creator.username %}">{{ task.creator.username }}</a>
+				{% if task.creator == user %}
+				 - <a href="{% url 'updatetask' task.id %}">Edit this task</a>
+				{% endif %}
+			</div>
+			<div class="comment_count">
+				{{ task.comment_count }}
+			</div>
+			<div class="created">
+				{{ task.created|date:"Y-m-d" }}
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+
+{% endblock %}
