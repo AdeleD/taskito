@@ -4,8 +4,7 @@
 {% block main_content %}
 
 	<section class="frame">
-		<form class="form-signin" action="" method="post">
-			{% csrf_token %}
+		<form class="form-signin" action="" method="post">{% csrf_token %}
 		  <h2 class="form-signin-heading">Sign in</h2>
 		  <input type="text" name="username" id="id_username" class="input-block-level" placeholder="Email address">
 		  <input type="password" name="password" id="id_password" class="input-block-level" placeholder="Password">
